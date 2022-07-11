@@ -1,0 +1,29 @@
+@import '~ngx-toastr/toastr.css';
+/* You can add global styles to this file, and also import other style files */
+body{
+    background-color: #f1f4f6!important;
+}
+#toast-container > div {
+    opacity:1;
+}
+
+.modal-dialog {
+    box-shadow: 0 0.76875rem 2.4875rem rgb(52 58 64 / 30%), 0 1.3375rem 1.70625rem rgb(52 58 64 / 30%), 0 0.55rem 0.53125rem rgb(0 0 0 / 5%), 0 0.225rem 0.4375rem rgb(52 58 64 / 30%);
+    border-radius: 0.25rem;
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+.btn-block {
+    width: 100%;
+}
+.shadow {
+    box-shadow: none!important;
+    border-bottom: 2px solid #e6e9f0;
+}
+.navbar {
+    background: #fff;
+}
+.mr-2{
+    margin-right: 1.5rem;
+}

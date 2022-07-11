@@ -1,0 +1,314 @@
+<header class="navbar sticky-top flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="javascript:vid(0)"><img src="/assets/img/invoice.png"
+            class="img-fluid d-block w-logo w-25" alt="Responsive image"></a>
+    <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+            <a class="btn btn-outline-primary btn-wide float-right mr-2" (click)="onLogout()"
+                href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="feather feather-log-out">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg> Logout</a>
+        </div>
+    </div>
+</header>
+<div class="container pt-lg-5">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center align-middle">
+                <h6 class="card-title mb-0">Invoice Management</h6>
+                <div class="btn-toolbar mb-2 mb-md-0 ">
+                    <div class="btn-group me-2">
+                        <button id="btnAdd" (click)="openPopup()" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#mdlPromo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-plus">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Create New Invoice
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-body">
+            <div class="live-preview">
+                <div class="table-responsive table-card">
+                    <table class="table align-middle table-nowrap mb-0">
+                        <thead class="table-light">
+                            <tr>
+
+                                <th scope="col" class="text-center">Invoice Id</th>
+                                <th scope="col" class="text-center">Created Date</th>
+                                <th scope="col" class="text-center">Purchase Order No</th>
+                                <th scope="col" class="text-center">Status</th>
+                                <th scope="col" class="text-center" style="width: 150px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of invoices">
+
+                                <td class="text-center"><a href="#" class="fw-medium">INV#{{item.id}}</a></td>
+                                <td class="text-center">{{item.createdDate | date}}</td>
+                                <td class="text-center">{{item.purchaseOrderNo}}</td>
+                                <td class="text-center"><span
+                                        [ngClass]="item.isPaid ? 'badge bg-success': 'badge bg-danger'">{{item.isPaid ?
+                                        "PAID" : "Not Paid"}}</span></td>
+                                <td class="text-center" style="cursor:pointer" (click)="editInvoice(item.id)">Edit</td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div><!-- end card-body -->
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="Invmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create New Invoice</h5>
+
+                <button type="button" class="btn-close" (click)="closePopup()" aria-label="Close"></button>
+            </div>
+            <form [formGroup]="formModel" autocomplete="off" (submit)="onSubmit()">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label bg-dark text-white">Draft</label>
+                            <div class="col-sm-6">
+                                <input type="text" placeholder="Invoice" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold form-label">Invoive no.</label>
+                            <div class="col-sm-6">
+                                <input type="text" placeholder="INV#" class="form-control" readonly/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row gx-5">
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="d-flex justify-content-between">
+                                    <label class="font-weight-bold"> From </label>
+                                    <a href="javascript:void(0)"> Edit Business Profile </a>
+                                </div>
+
+                                <address>
+                                    Ali H. Naeem <br>
+                                    P#123 Block A, Gulshan Rafique <br>
+                                    38000 Faisalabad <br>
+                                    Pakistan
+                                </address>
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="font-weight-bold form-label"> To </label>
+                                        <a href="javascript:void(0)"> New Client </a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" placeholder="ali@domain.ae" class="form-control" readonly>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-lg-4  col-sm-12">
+                                <div class="form-group">
+                                    <label class="font-weight-bold form-label"> Date </label>
+                                    <div class="col-sm-12">
+                                        <input type="text" placeholder="{{currentDate | date}}" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bold form-label"> Invoice Due </label>
+                                    <div class="col-sm-12">
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-secondary dropdown-toggle"
+                                                data-bs-toggle="dropdown">Due
+                                                on Receipt</a>
+                                            <div class="dropdown-menu">
+                                                <a href="#" class="dropdown-item">Option 1</a>
+                                                <a href="#" class="dropdown-item">Option 2</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Purchase Order Number </label>
+                                    <div class="col-sm-12">
+                                        <input type="text" placeholder="Purchase Order Number" class="form-control"
+                                            formControlName="PurchaseOrderNo">
+                                        <label class="text-danger"
+                                            *ngIf="formModel.get('PurchaseOrderNo').touched && formModel.get('PurchaseOrderNo').errors?.required">This
+                                            field is mandatory.</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <ng-container formArrayName="items">
+                            <ng-container *ngFor="let p of items.controls; let i = index" [formGroupName]="i">
+                                <div class="row">
+                                    <div class="col-lg-5 col-sm-12">
+                                        <label class="font-weight-bold form-label"> Description </label>
+                                        <textarea class="form-control" rows="2" formControlName="itemName"></textarea>
+                                        <label class="text-danger"
+                                            *ngIf="p.get('itemName').touched && p.get('itemName').errors?.required">This
+                                            field is mandatory.</label>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <div>
+                                                <button class="rounded-circle border border-light"><i
+                                                        class="fa-regular fa-copy"></i></button>
+                                                <button class="rounded-circle border border-light"><i
+                                                        class="fa-regular fa-calendar"></i></button>
+                                                <button class="rounded-circle border border-light"><i
+                                                        class="fa-solid fa-link"></i></button>
+                                                <button class="rounded-circle border border-light"><i
+                                                        class="fa-solid fa-tag"></i></button>
+                                            </div>
+
+                                            <div>
+                                                <button class="rounded-circle border border-light"><i
+                                                        class="fa-regular fa-credit-card"></i></button>
+                                                <button class="rounded-circle border border-light"><i
+                                                        class="fa-solid fa-percent"></i></button>
+                                                <button class="rounded-circle border border-light"><i
+                                                        class="fa-solid fa-shop"></i></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-2 col-sm-12">
+                                        <label class="font-weight-bold"> Quantity </label>
+                                        <input type="text" placeholder="Quantity" class="form-control text-right"
+                                            formControlName="qty" name="qty" (change)="onControlChange($event, i)">
+                                        <label class="text-danger"
+                                            *ngIf="p.get('qty').touched && p.get('qty').errors?.required">This
+                                            field is mandatory.</label>
+                                    </div>
+
+                                    <div class="col-lg-2 col-sm-12">
+                                        <label class="font-weight-bold"> Rate </label>
+                                        <input type="text" placeholder="0.00" class="form-control text-right"
+                                            formControlName="itemRate" name="itemRate"
+                                            (change)="onControlChange($event, i)">
+                                        <label class="text-danger"
+                                            *ngIf="p.get('itemRate').touched && p.get('itemRate').errors?.required">This
+                                            field is mandatory.</label>
+                                        <div class="dropdown d-flex justify-content-end">
+                                            <a href="#" class="btn btn-secondary dropdown-toggle mt-2"
+                                                data-bs-toggle="dropdown">Unit</a>
+                                            <div class="dropdown-menu">
+                                                <a href="#" class="dropdown-item">Option 1</a>
+                                                <a href="#" class="dropdown-item">Option 2</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-2 col-sm-12">
+                                        <label class="font-weight-bold"> Amount </label>
+                                        <input type="text" placeholder="0.00" class="form-control text-right"
+                                            formControlName="amount">
+                                    </div>
+
+                                    <div class="col-lg-1 col-sm-12">
+
+                                        <label class="font-weight-bold"> </label>
+
+                                        <div class="dropdown">
+                                            <a href="#" class="btn btn-secondary dropdown-toggle mt-1"
+                                                data-bs-toggle="dropdown">
+                                                <i class="fa-solid fa-gear"></i>
+                                            </a>
+                                            <div class="dropdown-menu">
+                                                <a href="#" class="dropdown-item">Option 1</a>
+                                                <a href="#" class="dropdown-item">Option 2</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </ng-container>
+                        </ng-container>
+
+
+                        <div class="dropdown">
+                            <a href="javascript:void(0)" class="btn btn-primary mt-1" (click)="addItem()">
+                                Add New Item
+                            </a>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <div class="d-flex justify-content-between" style="width: 70%">
+                                <label class="font-weight-bold"> Sub Total </label>
+                                <label> {{total}} </label>
+                            </div>
+                        </div>
+
+                        <hr width="70%" class="mr-0">
+
+                        <div class="d-flex justify-content-end">
+                            <div class="d-flex justify-content-between" style="width: 70%">
+                                <label class="font-weight-bold"> Total (USD) </label>
+                                <label> {{total}} </label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <div class="input-group border border-dark rounded" style="width: 70%">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="text" class="form-control text-right" formControlName="Amount"
+                                    name="Amount" placeholder="" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-2">
+                            <a href="" class="mr-1">Manage Default Taxes</a>
+                            <button class="rounded-circle border border-light mr-1"><i
+                                    class="fa-regular fa-credit-card"></i></button>
+                            <button class="rounded-circle border border-light mr-1"><i
+                                    class="fa-solid fa-percent"></i></button>
+                            <button class="rounded-circle border border-light"><i class="fa-solid fa-shop"></i></button>
+                        </div>
+
+                        <hr>
+
+                        <label class="font-weight-bold"> Invoice Note &#40; <a href="">Default Note</a> &#41; </label>
+                        <textarea class="form-control" rows="2" formControlName="InvoiceNote"></textarea>
+
+                        <hr>
+
+                        <p>alihassannaeem786@gmail.com</p>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closePopup()">Close</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!formModel.valid">{{btnText}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
